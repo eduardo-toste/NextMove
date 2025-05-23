@@ -17,7 +17,7 @@ echo "🚀 Iniciando microserviços..."
 # Caminhos relativos para cada microserviço
 SERVICES=(
   "infra/service-registry"
-#  "infra/api-gateway"
+  "infra/api-gateway"
 #  "services/payment-service"
 #  "services/notification-service"
 )

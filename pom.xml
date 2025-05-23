@@ -13,7 +13,7 @@
     <properties>
         <java.version>23</java.version>
         <spring.boot.version>3.4.6</spring.boot.version>
-        <spring.cloud.version>2023.0.4</spring.cloud.version>
+        <spring.cloud.version>2024.0.0</spring.cloud.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
     </properties>
 

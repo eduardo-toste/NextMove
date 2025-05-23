@@ -4,9 +4,8 @@ echo "🚀 Iniciando toda a stack NextMove..."
 
 # 1. Subir infraestrutura via Docker Compose
 echo "🔧 Subindo infraestrutura (Docker Compose)..."
-cd infra
+cd ../..
 docker-compose up -d
-cd ..
 
 echo "✅ Infraestrutura subida com sucesso!"
 echo "⏳ Aguardando alguns segundos para garantir que os serviços estejam prontos..."

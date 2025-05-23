@@ -28,6 +28,10 @@ do
   cd $SERVICE
   mvn spring-boot:run &
   cd - > /dev/null
+
+  # ⏳ Espera de 3 segundos antes de iniciar o próximo
+  echo "⏳ Aguardando 3 segundos antes de iniciar o próximo serviço..."
+  sleep 3
 done
 
 echo "🏁 Ambiente NextMove pronto!"

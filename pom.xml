@@ -66,9 +66,8 @@
 
     <modules>
         <module>infra/service-registry</module>
-        <!-- Outros módulos que você criar aqui, ex: -->
-        <!-- <module>api-gateway</module> -->
-        <!-- <module>auth-service</module> -->
+        <module>infra/api-gateway</module>
+        <!-- Outros módulos aqui -->
     </modules>
 
 </project>

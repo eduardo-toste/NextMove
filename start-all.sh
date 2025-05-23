@@ -4,9 +4,9 @@ echo "🚀 Iniciando toda a stack NextMove..."
 
 # 1. Subir infraestrutura via Docker Compose
 echo "🔧 Subindo infraestrutura (Docker Compose)..."
-cd infra/docker
+cd infra
 docker-compose up -d
-cd ../..
+cd ..
 
 echo "✅ Infraestrutura subida com sucesso!"
 echo "⏳ Aguardando alguns segundos para garantir que os serviços estejam prontos..."
@@ -27,7 +27,7 @@ for SERVICE in "${SERVICES[@]}"
 do
   echo "➡️ Iniciando $SERVICE..."
   cd $SERVICE
-  mvn spring-boot:run -q &
+  mvn spring-boot:run &
   cd - > /dev/null
 done
 

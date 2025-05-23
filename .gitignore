@@ -9,4 +9,4 @@ target/
 *.log
 
 # Docker env
-.env
+infra/.env

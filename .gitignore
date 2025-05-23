@@ -1,0 +1,12 @@
+# IntelliJ / VSCode
+.idea/
+.vscode/
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# Docker env
+infra/.env

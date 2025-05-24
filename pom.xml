@@ -4,11 +4,14 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.nextmove</groupId>
     <artifactId>nextmove-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>NextMove Parent POM</name>
+    <description>Parent project for all NextMove microservices</description>
 
     <properties>
         <java.version>23</java.version>
@@ -19,22 +22,22 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring Boot dependencies -->
+            <!-- Spring Boot BOM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
-            <!-- Spring Cloud dependencies -->
+            <!-- Spring Cloud BOM -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -67,6 +70,7 @@
     <modules>
         <module>infra/service-registry</module>
         <module>infra/api-gateway</module>
+        <module>services/auth-service</module>
         <!-- Outros módulos aqui -->
     </modules>
 

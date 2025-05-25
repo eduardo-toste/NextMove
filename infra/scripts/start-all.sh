@@ -18,7 +18,7 @@ echo "🚀 Iniciando microserviços..."
 SERVICES=(
   "infra/service-registry"
   "infra/api-gateway"
-#  "services/payment-service"
+  "services/auth-service"
 #  "services/notification-service"
 )
 

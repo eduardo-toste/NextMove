@@ -15,7 +15,7 @@
 	<groupId>com.nextmove</groupId>
 	<artifactId>auth-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>auth-service</name>
+	<name>NextMove Auth Service</name>
 	<description>Authentication Service for NextMove</description>
 
 	<dependencies>

@@ -1,5 +1,7 @@
 package com.nextmove.auth_service.service;
 
+import com.nextmove.auth_service.dto.AuthRequestDTO;
+import com.nextmove.auth_service.dto.AuthResponseDTO;
 import com.nextmove.auth_service.model.User;
 import com.nextmove.auth_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +18,16 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public String authenticate(String username, String password) {
+    public AuthResponseDTO authenticate(AuthRequestDTO request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
 
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
-        return jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername());
+
+        return new AuthResponseDTO(token);
     }
 }

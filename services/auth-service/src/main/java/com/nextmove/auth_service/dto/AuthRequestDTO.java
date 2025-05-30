@@ -1,4 +1,14 @@
 package com.nextmove.auth_service.dto;
 
-public record AuthRequestDTO(String username, String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record AuthRequestDTO(
+
+        @NotBlank
+        @Email
+        String username,
+
+        @NotBlank
+        String password) {
 }

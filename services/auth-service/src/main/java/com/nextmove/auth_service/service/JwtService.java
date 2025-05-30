@@ -12,20 +12,23 @@ public class JwtService {
 
     @Value("${api.security.token.secret}")
     private String secret;
+
     private static final long EXPIRATION = 1000 * 60 * 60;
 
-    private final Algorithm algorithm = Algorithm.HMAC256(secret);
+    private Algorithm getAlgorithm() {
+        return Algorithm.HMAC256(secret);
+    }
 
     public String generateToken(String username){
         return JWT.create()
                 .withSubject(username)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION))
-                .sign(algorithm);
+                .sign(getAlgorithm());
     }
 
     public String extractUsername(String token){
-        return JWT.require(algorithm)
+        return JWT.require(getAlgorithm())
                 .build()
                 .verify(token)
                 .getSubject();
@@ -36,7 +39,7 @@ public class JwtService {
     }
 
     public boolean isExpired(String token){
-        Date expiresAt = JWT.require(algorithm)
+        Date expiresAt = JWT.require(getAlgorithm())
                 .build()
                 .verify(token)
                 .getExpiresAt();

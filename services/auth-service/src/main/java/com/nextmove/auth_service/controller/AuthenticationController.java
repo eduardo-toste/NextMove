@@ -24,14 +24,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid AuthRequestDTO request) {
-        String token = authenticationService.authenticate(request.username(), request.password());
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+        AuthResponseDTO response = authenticationService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterRequestDTO request){
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestDTO request){
         userService.registerUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
     }
 
 }

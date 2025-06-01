@@ -16,18 +16,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.access.AccessDeniedException;
 import java.util.stream.Collectors;
 
+import static com.nextmove.auth_service.utils.ErrorBuilder.buildErrorResponse;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    private ResponseEntity<ErrorResponseDTO> buildErrorResponse(HttpStatus status, String error, String message, String path) {
-        ErrorResponseDTO response = ErrorResponseDTO.of(
-                status.value(),
-                error,
-                message,
-                path
-        );
-        return ResponseEntity.status(status).body(response);
-    }
 
     // 400 - BAD REQUEST
     @ExceptionHandler(MethodArgumentNotValidException.class)

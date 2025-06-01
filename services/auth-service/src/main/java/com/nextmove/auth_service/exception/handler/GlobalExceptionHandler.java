@@ -1,6 +1,9 @@
-package com.nextmove.auth_service.exception;
+package com.nextmove.auth_service.exception.handler;
 
 import com.nextmove.auth_service.dto.ErrorResponseDTO;
+import com.nextmove.auth_service.exception.ConflictException;
+import com.nextmove.auth_service.exception.ExistentUserException;
+import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

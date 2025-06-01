@@ -1,5 +1,6 @@
 package com.nextmove.auth_service.service;
 
+import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import com.nextmove.auth_service.repository.UserRepository;
 import com.nextmove.auth_service.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
         return new CustomUserDetails(user);
     }

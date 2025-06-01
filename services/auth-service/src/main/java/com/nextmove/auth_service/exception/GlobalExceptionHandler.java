@@ -72,4 +72,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleAllExceptions(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex.getMessage(), request.getRequestURI());
     }
+
+    // CUSTOM EXCEPTIONS
+
+    @ExceptionHandler(ExistentUserException.class)
+    public ResponseEntity<ErrorResponseDTO> handleExistentUserException(Exception ex, HttpServletRequest request){
+        return buildErrorResponse(HttpStatus.CONFLICT, "User Already Exists", ex.getMessage(), request.getRequestURI());
+    }
 }

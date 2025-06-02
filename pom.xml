@@ -83,6 +83,7 @@
         <module>infra/service-registry</module>
         <module>infra/api-gateway</module>
         <module>services/auth-service</module>
+        <module>services/transaction-service</module>
         <!-- Outros módulos -->
     </modules>
 </project>

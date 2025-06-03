@@ -1,4 +1,4 @@
-package com.nextmove.transaction_service.model;
+package com.nextmove.transaction_service.model.enums;
 
 public enum TransactionType {
 

@@ -2,6 +2,7 @@ package com.nextmove.auth_service.service;
 
 import com.nextmove.auth_service.dto.AuthRequestDTO;
 import com.nextmove.auth_service.dto.AuthResponseDTO;
+import com.nextmove.auth_service.exception.InvalidTokenException;
 import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import com.nextmove.auth_service.model.User;
 import com.nextmove.auth_service.repository.UserRepository;
@@ -29,5 +30,16 @@ public class AuthenticationService {
         String token = jwtService.generateToken(user.getUsername());
 
         return new AuthResponseDTO(token);
+    }
+
+    public User validateTokenAndGetUser(String token) {
+        String username = jwtService.extractUsername(token);
+
+        if (!jwtService.isTokenValid(token, username)) {
+            throw new InvalidTokenException("Invalid token!");
+        }
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidTokenException("User not found!"));
     }
 }

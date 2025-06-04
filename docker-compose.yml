@@ -1,17 +1,31 @@
 version: '3.8'
 
 services:
-  postgres:
+  auth-postgres:
     image: postgres:16
-    container_name: nextmove_postgres
+    container_name: nextmove_postgres_auth
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER_AUTH}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_AUTH}
+      POSTGRES_DB: ${POSTGRES_DB_AUTH}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT_AUTH}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - auth_postgres_data:/var/lib/postgresql/data
+    networks:
+      - nextmove-net
+
+  trans-postgres:
+    image: postgres:16
+    container_name: nextmove_postgres_trans
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER_TRANS}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_TRANS}
+      POSTGRES_DB: ${POSTGRES_DB_TRANS}
+    ports:
+      - "${POSTGRES_PORT_TRANS}:5432"
+    volumes:
+      - trans_postgres_data:/var/lib/postgresql/data
     networks:
       - nextmove-net
 
@@ -52,5 +66,6 @@ networks:
   nextmove-net:
 
 volumes:
-  postgres_data:
+  auth_postgres_data:
+  trans_postgres_data:
   mongo_data:

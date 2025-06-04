@@ -4,7 +4,6 @@ import com.nextmove.auth_service.dto.AuthRequestDTO;
 import com.nextmove.auth_service.dto.AuthResponseDTO;
 import com.nextmove.auth_service.dto.RegisterRequestDTO;
 import com.nextmove.auth_service.dto.UserDTO;
-import com.nextmove.auth_service.model.User;
 import com.nextmove.auth_service.service.AuthenticationService;
 import com.nextmove.auth_service.service.UserService;
 import jakarta.validation.Valid;
@@ -36,9 +35,9 @@ public class AuthenticationController {
     @PostMapping("/validate")
     public ResponseEntity<UserDTO> validateToken(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
-        User user = authenticationService.validateTokenAndGetUser(token);
+        UserDTO user = authenticationService.validateTokenAndGetUser(token);
 
-        return ResponseEntity.ok(new UserDTO(user));
+        return ResponseEntity.ok(user);
     }
 
 }

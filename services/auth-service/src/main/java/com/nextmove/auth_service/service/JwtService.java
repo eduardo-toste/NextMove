@@ -27,24 +27,4 @@ public class JwtService {
                 .sign(getAlgorithm());
     }
 
-    public String extractUsername(String token){
-        return JWT.require(getAlgorithm())
-                .build()
-                .verify(token)
-                .getSubject();
-    }
-
-    public boolean isTokenValid(String token, String username){
-        return extractUsername(token).equals(username) && !isExpired(token);
-    }
-
-    public boolean isExpired(String token){
-        Date expiresAt = JWT.require(getAlgorithm())
-                .build()
-                .verify(token)
-                .getExpiresAt();
-
-        return expiresAt.before(new Date());
-    }
-
 }

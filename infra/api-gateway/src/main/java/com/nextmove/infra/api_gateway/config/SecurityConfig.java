@@ -1,5 +1,6 @@
 package com.nextmove.infra.api_gateway.config;
 
+import com.nextmove.infra.api_gateway.exception.AuthenticationErrorHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,12 @@ public class SecurityConfig {
     @Value("${api.security.token.secret}")
     private String jwtSecret;
 
+    private final AuthenticationErrorHandler errorHandler;
+
+    public SecurityConfig(AuthenticationErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
+    }
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         return http
@@ -28,6 +35,7 @@ public class SecurityConfig {
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .authenticationEntryPoint(errorHandler)
                         .jwt(jwt -> jwt.jwtDecoder(jwtDecoder()))
                 )
                 .build();

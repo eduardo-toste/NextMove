@@ -26,7 +26,7 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
-        String token = jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername(), user.getId());
 
         return new AuthResponseDTO(token);
     }

@@ -50,8 +50,14 @@ public class TransactionService {
         return new TransactionResponseDTO(transaction);
     }
 
+    public void deleteTransaction(UUID userId, UUID transactionId) {
+        Transaction transaction = getTransactionOrThrow(userId, transactionId);
+
+        repository.delete(transaction);
+    }
+
     private Transaction getTransactionOrThrow(UUID userId, UUID transactionId){
-        var transaction = repository.findByUserIdAndId(userId, transactionId);
+        Transaction transaction = repository.findByUserIdAndId(userId, transactionId);
 
         if(transaction == null){
             throw new ResourceNotFoundException("Transaction not found!");

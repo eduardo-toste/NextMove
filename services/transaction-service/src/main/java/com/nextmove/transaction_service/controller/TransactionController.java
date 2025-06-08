@@ -19,6 +19,13 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    @PostMapping
+    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestHeader("X-User-Id") UUID userId, @RequestBody TransactionRequestDTO request) {
+        TransactionResponseDTO transaction = transactionService.createTransaction(userId, request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+    }
+
     @GetMapping
     public ResponseEntity<Page<TransactionResponseDTO>> getAllTransactions(@RequestHeader("X-User-Id") UUID userId, Pageable pageable) {
         Page<TransactionResponseDTO> transactions = transactionService.getAllTransactions(userId, pageable);
@@ -26,11 +33,11 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 
-    @PostMapping
-    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestHeader("X-User-Id") UUID userId, @RequestBody TransactionRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.createTransaction(userId, request);
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<TransactionResponseDTO> getTransactionById(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId) {
+        TransactionResponseDTO transaction = transactionService.getTransactionById(userId, transactionId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
 }

@@ -35,10 +35,12 @@ public class JwtToHeaderFilter implements GlobalFilter, Ordered {
 
             return decoder.decode(token).flatMap(jwt -> {
                 String username = jwt.getSubject();
+                String userId = jwt.getClaimAsString("id");
 
                 ServerHttpRequest mutatedRequest = exchange.getRequest()
                         .mutate()
                         .header("X-User-Name", username)
+                        .header("X-User-Id", userId)
                         .build();
 
                 return chain.filter(exchange.mutate().request(mutatedRequest).build());

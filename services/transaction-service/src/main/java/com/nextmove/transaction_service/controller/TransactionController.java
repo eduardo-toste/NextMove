@@ -40,4 +40,11 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<String> deleteTransaction(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId) {
+        transactionService.deleteTransaction(userId, transactionId);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Transaction successfully deleted!");
+    }
+
 }

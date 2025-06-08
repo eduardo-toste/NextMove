@@ -43,4 +43,21 @@ public class TransactionService {
 
         return transactions.map(TransactionResponseDTO::new);
     }
+
+    public TransactionResponseDTO getTransactionById(UUID userId, UUID transactionId) {
+        Transaction transaction = getTransactionOrThrow(userId, transactionId);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    private Transaction getTransactionOrThrow(UUID userId, UUID transactionId){
+        var transaction = repository.findByUserIdAndId(userId, transactionId);
+
+        if(transaction == null){
+            throw new ResourceNotFoundException("Transaction not found!");
+        }
+
+        return transaction;
+    }
+
 }

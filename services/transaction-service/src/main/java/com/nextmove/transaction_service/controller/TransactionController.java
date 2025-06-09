@@ -1,5 +1,6 @@
 package com.nextmove.transaction_service.controller;
 
+import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.service.TransactionService;
@@ -43,6 +44,13 @@ public class TransactionController {
     @PutMapping("/{transactionId}")
     public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionRequestDTO request) {
         TransactionResponseDTO transaction = transactionService.transactionCompleteUpdate(userId, transactionId, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+    }
+
+    @PatchMapping("/{transactionId}")
+    public ResponseEntity<TransactionResponseDTO> transactionPartialUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPatchRequestDTO request) {
+        TransactionResponseDTO transaction = transactionService.transactionPartialUpdate(userId, transactionId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }

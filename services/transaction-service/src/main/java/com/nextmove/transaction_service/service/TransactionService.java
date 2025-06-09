@@ -1,5 +1,6 @@
 package com.nextmove.transaction_service.service;
 
+import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.exception.ResourceNotFoundException;
@@ -53,6 +54,14 @@ public class TransactionService {
     public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionRequestDTO request) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
         transaction.putUpdate(request);
+        repository.save(transaction);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    public TransactionResponseDTO transactionPartialUpdate(UUID userId, UUID transactionId, TransactionPatchRequestDTO request) {
+        Transaction transaction = getTransactionOrThrow(userId, transactionId);
+        transaction.patchUpdate(request);
         repository.save(transaction);
 
         return new TransactionResponseDTO(transaction);

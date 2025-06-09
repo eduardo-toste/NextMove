@@ -1,6 +1,7 @@
 package com.nextmove.transaction_service.dto;
 
 import com.nextmove.transaction_service.model.Transaction;
+import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 
 import java.math.BigDecimal;
@@ -16,13 +17,14 @@ public record TransactionResponseDTO(
         LocalDate createdAt,
         LocalDate dueDate,
         TransactionType type,
+        Status status,
         UUID userId
 
 ) {
 
     public TransactionResponseDTO(Transaction transaction){
         this(transaction.getId(), transaction.getTitle(), transaction.getDescription(), transaction.getAmount(),
-                transaction.getCreatedAt(), transaction.getDueDate(), transaction.getType(), transaction.getUserId());
+                transaction.getCreatedAt(), transaction.getDueDate(), transaction.getType(), transaction.getStatus(), transaction.getUserId());
     }
 
 }

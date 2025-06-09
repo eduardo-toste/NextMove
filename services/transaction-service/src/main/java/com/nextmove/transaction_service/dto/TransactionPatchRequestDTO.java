@@ -1,5 +1,6 @@
 package com.nextmove.transaction_service.dto;
 
+import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Positive;
@@ -13,7 +14,8 @@ public record TransactionPatchRequestDTO(
         String description,
         @Positive BigDecimal amount,
         @Future LocalDate dueDate,
-        TransactionType type
+        TransactionType type,
+        Status status
 
 ) {
 

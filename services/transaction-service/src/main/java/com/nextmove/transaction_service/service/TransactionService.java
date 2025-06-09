@@ -73,7 +73,6 @@ public class TransactionService {
     public void deleteTransaction(UUID userId, UUID transactionId) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
 
-
         repository.delete(transaction);
     }
 

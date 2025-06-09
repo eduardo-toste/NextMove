@@ -8,5 +8,6 @@ CREATE TABLE transactions (
     created_at DATE NOT NULL,
     due_date DATE NOT NULL,
     type VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL,
     user_id UUID NOT NULL
 );

@@ -1,5 +1,6 @@
 package com.nextmove.transaction_service.model;
 
+import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 import jakarta.persistence.*;
@@ -56,5 +57,13 @@ public class Transaction {
         this.amount = request.amount();
         this.dueDate = request.dueDate();
         this.type = request.type();
+    }
+
+    public void patchUpdate(TransactionPatchRequestDTO data) {
+        if (data.title() != null) this.title = data.title();
+        if (data.description() != null) this.description = data.description();
+        if (data.amount() != null) this.amount = data.amount();
+        if (data.dueDate() != null) this.dueDate = data.dueDate();
+        if (data.type() != null) this.type = data.type();
     }
 }

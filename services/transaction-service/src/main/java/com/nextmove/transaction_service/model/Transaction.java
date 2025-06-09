@@ -1,5 +1,6 @@
 package com.nextmove.transaction_service.model;
 
+import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,5 +50,11 @@ public class Transaction {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-
+    public void putUpdate(TransactionRequestDTO request) {
+        this.title = request.title();
+        this.description = request.description();
+        this.amount = request.amount();
+        this.dueDate = request.dueDate();
+        this.type = request.type();
+    }
 }

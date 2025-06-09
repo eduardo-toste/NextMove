@@ -1,10 +1,12 @@
 package com.nextmove.transaction_service.service;
 
 import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.exception.ResourceNotFoundException;
 import com.nextmove.transaction_service.model.Transaction;
+import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,7 @@ public class TransactionService {
                 LocalDate.now(),
                 request.dueDate(),
                 request.type(),
+                Status.PENDING,
                 userId
         );
 
@@ -51,7 +54,7 @@ public class TransactionService {
         return new TransactionResponseDTO(transaction);
     }
 
-    public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionRequestDTO request) {
+    public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionPutRequestDTO request) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
         transaction.putUpdate(request);
         repository.save(transaction);

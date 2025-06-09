@@ -1,6 +1,7 @@
 package com.nextmove.transaction_service.controller;
 
 import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.service.TransactionService;
@@ -42,7 +43,7 @@ public class TransactionController {
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionRequestDTO request) {
+    public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPutRequestDTO request) {
         TransactionResponseDTO transaction = transactionService.transactionCompleteUpdate(userId, transactionId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);

@@ -50,8 +50,17 @@ public class TransactionService {
         return new TransactionResponseDTO(transaction);
     }
 
+    public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionRequestDTO request) {
+        Transaction transaction = getTransactionOrThrow(userId, transactionId);
+        transaction.putUpdate(request);
+        repository.save(transaction);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
     public void deleteTransaction(UUID userId, UUID transactionId) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
+
 
         repository.delete(transaction);
     }

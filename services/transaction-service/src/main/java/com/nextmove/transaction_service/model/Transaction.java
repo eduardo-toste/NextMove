@@ -1,7 +1,8 @@
 package com.nextmove.transaction_service.model;
 
 import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
+import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,15 +49,20 @@ public class Transaction {
     @Setter
     private TransactionType type;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    public void putUpdate(TransactionRequestDTO request) {
+    public void putUpdate(TransactionPutRequestDTO request) {
         this.title = request.title();
         this.description = request.description();
         this.amount = request.amount();
         this.dueDate = request.dueDate();
         this.type = request.type();
+        this.status = request.status();
     }
 
     public void patchUpdate(TransactionPatchRequestDTO data) {
@@ -65,5 +71,7 @@ public class Transaction {
         if (data.amount() != null) this.amount = data.amount();
         if (data.dueDate() != null) this.dueDate = data.dueDate();
         if (data.type() != null) this.type = data.type();
+        if (data.status() != null) this.status = data.status();
     }
+
 }

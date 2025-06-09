@@ -40,6 +40,13 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
+    @PutMapping("/{transactionId}")
+    public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionRequestDTO request) {
+        TransactionResponseDTO transaction = transactionService.transactionCompleteUpdate(userId, transactionId, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+    }
+
     @DeleteMapping("/{transactionId}")
     public ResponseEntity<String> deleteTransaction(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId) {
         transactionService.deleteTransaction(userId, transactionId);

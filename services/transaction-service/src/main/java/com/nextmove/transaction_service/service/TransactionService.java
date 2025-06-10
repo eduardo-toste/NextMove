@@ -6,14 +6,13 @@ import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.exception.ResourceNotFoundException;
 import com.nextmove.transaction_service.model.Transaction;
-import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.repository.TransactionRepository;
+import com.nextmove.transaction_service.util.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -23,19 +22,10 @@ public class TransactionService {
     private final TransactionRepository repository;
 
     public TransactionResponseDTO createTransaction(UUID userId, TransactionRequestDTO request) {
-        Transaction transaction = new Transaction(
-                null,
-                request.title(),
-                request.description(),
-                request.amount(),
-                LocalDate.now(),
-                request.dueDate(),
-                request.type(),
-                Status.PENDING,
-                userId
-        );
+        Transaction transaction = TransactionMapper.toEntity(request, userId);
+        repository.save(transaction);
 
-        return new TransactionResponseDTO(repository.save(transaction));
+        return TransactionMapper.toDTO(transaction);
     }
 
     public Page<TransactionResponseDTO> getAllTransactions(UUID userId, Pageable pageable) {
@@ -45,13 +35,13 @@ public class TransactionService {
             throw new ResourceNotFoundException("You do not have transactions registered!");
         }
 
-        return transactions.map(TransactionResponseDTO::new);
+        return TransactionMapper.toDTOPage(transactions);
     }
 
     public TransactionResponseDTO getTransactionById(UUID userId, UUID transactionId) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
 
-        return new TransactionResponseDTO(transaction);
+        return TransactionMapper.toDTO(transaction);
     }
 
     public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionPutRequestDTO request) {
@@ -59,7 +49,7 @@ public class TransactionService {
         transaction.putUpdate(request);
         repository.save(transaction);
 
-        return new TransactionResponseDTO(transaction);
+        return TransactionMapper.toDTO(transaction);
     }
 
     public TransactionResponseDTO transactionPartialUpdate(UUID userId, UUID transactionId, TransactionPatchRequestDTO request) {
@@ -67,7 +57,7 @@ public class TransactionService {
         transaction.patchUpdate(request);
         repository.save(transaction);
 
-        return new TransactionResponseDTO(transaction);
+        return TransactionMapper.toDTO(transaction);
     }
 
     public void deleteTransaction(UUID userId, UUID transactionId) {

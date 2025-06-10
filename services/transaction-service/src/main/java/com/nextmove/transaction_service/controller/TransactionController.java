@@ -44,14 +44,14 @@ public class TransactionController {
 
     @PutMapping("/{transactionId}")
     public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPutRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.transactionCompleteUpdate(userId, transactionId, request);
+        TransactionResponseDTO transaction = transactionService.updateTransaction(userId, transactionId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
     @PatchMapping("/{transactionId}")
     public ResponseEntity<TransactionResponseDTO> transactionPartialUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPatchRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.transactionPartialUpdate(userId, transactionId, request);
+        TransactionResponseDTO transaction = transactionService.patchTransaction(userId, transactionId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }

@@ -40,7 +40,7 @@ public class TransactionService {
         return TransactionMapper.toDTO(transaction);
     }
 
-    public TransactionResponseDTO transactionCompleteUpdate(UUID userId, UUID transactionId, TransactionPutRequestDTO request) {
+    public TransactionResponseDTO updateTransaction(UUID userId, UUID transactionId, TransactionPutRequestDTO request) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
         transaction.putUpdate(request);
         repository.save(transaction);
@@ -48,7 +48,7 @@ public class TransactionService {
         return TransactionMapper.toDTO(transaction);
     }
 
-    public TransactionResponseDTO transactionPartialUpdate(UUID userId, UUID transactionId, TransactionPatchRequestDTO request) {
+    public TransactionResponseDTO patchTransaction(UUID userId, UUID transactionId, TransactionPatchRequestDTO request) {
         Transaction transaction = getTransactionOrThrow(userId, transactionId);
         transaction.patchUpdate(request);
         repository.save(transaction);

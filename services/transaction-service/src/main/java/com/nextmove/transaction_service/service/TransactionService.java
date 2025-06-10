@@ -31,10 +31,6 @@ public class TransactionService {
     public Page<TransactionResponseDTO> getAllTransactions(UUID userId, Pageable pageable) {
         Page<Transaction> transactions = repository.findByUserId(userId, pageable);
 
-        if (transactions.isEmpty()) {
-            throw new ResourceNotFoundException("You do not have transactions registered!");
-        }
-
         return TransactionMapper.toDTOPage(transactions);
     }
 

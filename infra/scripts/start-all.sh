@@ -20,6 +20,7 @@ SERVICES=(
   "infra/api-gateway"
   "services/auth-service"
   "services/transaction-service"
+  "services/notification-service"
 )
 
 for SERVICE in "${SERVICES[@]}"

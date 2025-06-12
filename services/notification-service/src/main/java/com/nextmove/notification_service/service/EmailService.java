@@ -1,9 +1,9 @@
 package com.nextmove.notification_service.service;
 
+import com.nextmove.notification_service.config.GetEnv;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,11 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
 
-    @Value("${spring.mail.username}")
-    private String from;
+    private final String from = GetEnv.get("MAIL_USERNAME");
 
-    public void sendWelcomeEmail(String to, String nome) {
+    public void sendWelcomeEmail(String to, String name) {
         Context context = new Context();
-        context.setVariable("nome", nome);
+        context.setVariable("nome", name);
 
         String htmlContent = templateEngine.process("welcome", context);
 

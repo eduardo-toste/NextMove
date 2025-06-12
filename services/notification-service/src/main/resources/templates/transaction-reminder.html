@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lembrete de Transação</title>
+    <style>
+        /* Reset básico */
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        header p {
+            margin: 8px 0 0 0;
+            font-size: 16px;
+            opacity: 0.85;
+        }
+        main {
+            padding: 30px 25px;
+            color: #444;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        main table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        main table tr td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+        }
+        main table tr td:first-child {
+            font-weight: 600;
+            color: #6a11cb;
+            width: 35%;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.04em;
+        }
+        main table tr:last-child td {
+            border-bottom: none;
+        }
+        footer {
+            background: #f7f8fa;
+            color: #666;
+            font-size: 13px;
+            padding: 20px 25px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        footer strong {
+            color: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+<div class="container" role="document" aria-label="Lembrete de transação">
+    <header>
+        <h1>Olá, <span th:text="${nome}">Nome</span>!</h1>
+        <p>Você tem uma transação vencendo em breve no <strong>PayTracker</strong>.</p>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <td>Título</td>
+                <td th:text="${titulo}">Título da transação</td>
+            </tr>
+            <tr>
+                <td>Descrição</td>
+                <td th:text="${descricao}">Descrição da transação</td>
+            </tr>
+            <tr>
+                <td>Vencimento</td>
+                <td th:text="${vencimento}">00/00/0000</td>
+            </tr>
+            <tr>
+                <td>Valor</td>
+                <td th:text="${valor}">R$ 0,00</td>
+            </tr>
+            <tr>
+                <td>Categoria</td>
+                <td th:text="${categoria}">Categoria</td>
+            </tr>
+        </table>
+        <p style="margin-top: 30px; color: #555; text-align: center;">
+            <strong>Fique atento</strong> para evitar juros ou multas.<br />
+            Caso já tenha pago, desconsidere este aviso.
+        </p>
+    </main>
+    <footer>
+        Obrigado por confiar no <strong>NextMove</strong>.<br />
+        Este é um e-mail automático, por favor, não responda.
+    </footer>
+</div>
+</body>
+</html>

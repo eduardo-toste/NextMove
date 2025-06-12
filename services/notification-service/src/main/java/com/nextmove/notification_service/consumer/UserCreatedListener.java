@@ -15,6 +15,6 @@ public class UserCreatedListener {
 
     @RabbitListener(queues = RabbitMQConfig.USER_CREATED_QUEUE)
     public void onUserCreated(UserCreatedEvent event) {
-        emailService.sendWelcomeEmail(event.email(), event.nome());
+        emailService.sendWelcomeEmail(event.email(), event.name());
     }
 }

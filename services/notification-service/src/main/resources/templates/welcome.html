@@ -1,139 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Boas-vindas ao NextMove</title>
-    <style>
-        body, html {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #333;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            overflow: hidden;
-        }
-        header {
-            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-            padding: 40px 20px 35px 20px;
-            text-align: center;
-            color: white;
-            border-bottom-left-radius: 80px;
-            border-bottom-right-radius: 80px;
-            position: relative;
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.15);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-        }
-        header p {
-            margin: 10px 0 0 0;
-            font-size: 18px;
-            opacity: 0.9;
-            font-style: italic;
-        }
-        main {
-            padding: 30px 40px 40px 40px;
-            color: #444;
-            font-size: 17px;
-            line-height: 1.7;
-            text-align: center;
-        }
-        main p.intro {
-            font-weight: 700;
-            font-size: 21px;
-            margin-bottom: 28px;
-            color: #6a11cb;
-        }
-        main p {
-            margin-bottom: 22px;
-            max-width: 520px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .btn-container {
-            margin: 40px 0 10px 0;
-        }
-        .btn-access {
-            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
-            color: white;
-            padding: 16px 38px;
-            border-radius: 35px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 17px;
-            box-shadow: 0 8px 22px rgba(38, 47, 121, 0.6);
-            display: inline-block;
-            transition: background 0.35s ease, transform 0.2s ease;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-        }
-        .btn-access:hover,
-        .btn-access:focus {
-            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-            transform: scale(1.05);
-        }
-        footer {
-            background: #f7f8fa;
-            color: #666;
-            font-size: 13px;
-            padding: 22px 25px;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-            font-style: italic;
-        }
-        footer strong {
-            color: #6a11cb;
-        }
-        /* Detalhe decorativo no header */
-        header::after {
-            content: "";
-            width: 130px;
-            height: 130px;
-            background: rgba(255, 255, 255, 0.14);
-            border-radius: 50%;
-            position: absolute;
-            bottom: -65px;
-            left: calc(50% - 65px);
-            filter: blur(35px);
-            z-index: 0;
-        }
-        header > * {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
 </head>
-<body>
-<div class="container" role="document" aria-label="Boas-vindas">
-    <header>
-        <h1>Olá, <span th:text="${nome}">Usuário</span>! 👋</h1>
-        <p>Bem-vindo ao <strong>NextMove</strong> — onde suas finanças ganham direção.</p>
-    </header>
-    <main>
-        <p class="intro">Comece agora a organizar, planejar e crescer.</p>
-        <p>Com o NextMove, você acompanha suas transações, entende seus gastos e traça metas com facilidade.</p>
-        <p>Tudo isso de forma clara, prática e no seu ritmo.</p>
-        <div class="btn-container">
-            <p style="font-weight: 600; font-size: 18px; color: #6a11cb;">
-                🚀 Em breve, você poderá acessar sua conta e começar sua evolução financeira!
-            </p>
-        </div>
-    </main>
-    <footer>
-        Obrigado por confiar no <strong>NextMove</strong>.<br />
-        Este é um e-mail automático, por favor, não responda.
-    </footer>
-</div>
+<body style="margin:0; padding:0; background-color:#f4f4f4;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f4f4">
+    <tr>
+        <td align="center" style="padding:40px 20px;">
+            <table width="600" cellpadding="0" cellspacing="0" border="0"
+                   style="background-color:#ffffff; border-radius:12px; overflow:hidden;">
+
+                <!-- Header -->
+                <tr>
+                    <td align="center" bgcolor="#6a11cb"
+                        style="padding:40px 20px; color:#ffffff; font-family:Arial, sans-serif;">
+                        <h1 style="margin:0; font-size:28px; font-weight:bold;">
+                            Olá, <span th:text="${nome}">Usuário</span>! 👋
+                        </h1>
+                        <p style="margin:10px 0 0; font-size:16px;">
+                            Bem-vindo ao <strong>NextMove</strong> — onde suas finanças ganham direção.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Conteúdo -->
+                <tr>
+                    <td align="center"
+                        style="padding:30px 40px; font-family:Arial, sans-serif; color:#333333;">
+                        <p style="font-size:20px; margin-bottom:20px; color:#6a11cb; font-weight:bold;">
+                            Comece agora a organizar, planejar e crescer.
+                        </p>
+                        <p style="font-size:16px; line-height:24px; margin-bottom:20px;">
+                            Conosco é possível acompanhar suas transações, entender seus gastos e traçar metas com facilidade.
+                        </p>
+                        <p style="font-size:16px; line-height:24px; margin-bottom:30px;">
+                            Tudo isso de forma clara, prática e no seu ritmo.
+                        </p>
+
+                        <!-- Botão -->
+                        <a th:href=""
+                           style="background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+                               color:#ffffff; padding:14px 28px; border-radius:30px;
+                               text-decoration:none; font-weight:bold; display:inline-block; font-size:16px;
+                               box-shadow:0 4px 14px rgba(38, 47, 121, 0.4);">
+                            🚀 Em breve, você poderá acessar sua conta!
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Footer dentro do card -->
+                <tr>
+                    <td align="center" bgcolor="#fafafa"
+                        style="padding:18px 25px; font-family:Arial, sans-serif;
+                               font-size:13px; color:#999999; border-top:1px solid #eeeeee;">
+                        <p style="margin:0;">
+                            Obrigado por confiar no
+                            <strong style="color:#6a11cb;">NextMove</strong>.<br>
+                            <span style="opacity:0.7;">
+                                Este é um e-mail automático, por favor, não responda.
+                            </span>
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

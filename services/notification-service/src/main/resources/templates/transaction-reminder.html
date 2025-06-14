@@ -3,118 +3,103 @@
 <head>
     <meta charset="UTF-8" />
     <title>Lembrete de Transação</title>
-    <style>
-        /* Reset básico */
-        body, html {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #333;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            overflow: hidden;
-        }
-        header {
-            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-            padding: 30px 20px;
-            text-align: center;
-            color: white;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        header p {
-            margin: 8px 0 0 0;
-            font-size: 16px;
-            opacity: 0.85;
-        }
-        main {
-            padding: 30px 25px;
-            color: #444;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-        main table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        main table tr td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #eee;
-        }
-        main table tr td:first-child {
-            font-weight: 600;
-            color: #6a11cb;
-            width: 35%;
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.04em;
-        }
-        main table tr:last-child td {
-            border-bottom: none;
-        }
-        footer {
-            background: #f7f8fa;
-            color: #666;
-            font-size: 13px;
-            padding: 20px 25px;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-        }
-        footer strong {
-            color: #6a11cb;
-        }
-    </style>
 </head>
-<body>
-<div class="container" role="document" aria-label="Lembrete de transação">
-    <header>
-        <h1>Olá, <span th:text="${nome}">Nome</span>!</h1>
-        <p>Você tem uma transação vencendo em breve no <strong>NextMove</strong>.</p>
-    </header>
-    <main>
-        <table>
-            <tr>
-                <td>Título</td>
-                <td th:text="${titulo}">Título da transação</td>
-            </tr>
-            <tr>
-                <td>Descrição</td>
-                <td th:text="${descricao}">Descrição da transação</td>
-            </tr>
-            <tr>
-                <td>Vencimento</td>
-                <td th:text="${vencimento}">00/00/0000</td>
-            </tr>
-            <tr>
-                <td>Valor</td>
-                <td th:text="${valor}">R$ 0,00</td>
-            </tr>
-            <tr>
-                <td>Categoria</td>
-                <td th:text="${categoria}">Categoria</td>
-            </tr>
-        </table>
-        <p style="margin-top: 30px; color: #555; text-align: center;">
-            <strong>Fique atento</strong> para evitar juros ou multas.<br />
-            Caso já tenha pago, desconsidere este aviso.
-        </p>
-    </main>
-    <footer>
-        Obrigado por confiar no <strong>NextMove</strong>.<br />
-        Este é um e-mail automático, por favor, não responda.
-    </footer>
-</div>
+<body style="margin:0; padding:20px; background-color:#f4f4f4; font-family: Arial, sans-serif; color:#333;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f4f4">
+    <tr>
+        <td align="center">
+            <table width="600" cellpadding="0" cellspacing="0" border="0"
+                   style="background-color:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+
+                <!-- Header -->
+                <tr>
+                    <td align="center"
+                        style="padding:30px 20px 24px; color:#ffffff;
+                               background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+                               font-weight:700; font-size:24px; line-height:1.4;">
+                        Atenção, <span th:text="${nome}">Usuário</span>!<br>
+                        <span style="font-weight:500; font-size:16px; color:#e0d7ff;">
+                            Uma de suas transações está se aproximando no <strong>NextMove</strong>.<br>
+                        </span>
+                    </td>
+                </tr>
+
+                <!-- Chamada -->
+                <tr>
+                    <td style="padding:20px 35px 24px;">
+                        <p style="font-size:19px; font-weight:700; color:#6a11cb; text-align:center; margin:0;">
+                            Fique de olho para não perder nada!
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Card de informações -->
+                <tr>
+                    <td style="padding:0 35px 35px;">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                               style="background-color:#f9f9f9; border-radius:10px; padding:24px; font-size:15px; color:#333;">
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb; width:30%;">Título</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${titulo}">Título da transação</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Descrição</td>
+                                <td style="padding:12px 16px;" th:text="${descricao}">Descrição da transação</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Vencimento</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${vencimento}">00/00/0000</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Valor</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${valor}">R$ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Categoria</td>
+                                <td style="padding:12px 16px;" th:text="${categoria}">Categoria</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Tipo</td>
+                                <td style="padding:12px 16px;" th:text="${tipo}">Receita ou Despesa</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Informação adicional -->
+                <tr>
+                    <td style="padding:0 35px 30px;">
+                        <p style="color:#555555; font-size:14px; text-align:center; line-height:1.5; margin:0;">
+                            🔔 <strong>Organize sua vida financeira com facilidade!</strong><br>
+                            Se esta transação já foi concluída, apenas ignore este lembrete.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Botão -->
+                <tr>
+                    <td align="center" style="padding-bottom:35px;">
+                        <a th:href="@{https://nextmove.com.br}"
+                           style="background-color:#2575fc; color:#ffffff; padding:14px 36px; border-radius:30px;
+                                  text-decoration:none; font-weight:700; font-size:16px; display:inline-block;">
+                            🚀 Acesse sua conta no NextMove!
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td align="center" bgcolor="#fafafa"
+                        style="padding:18px 25px; font-size:13px; color:#999999; border-top:1px solid #eeeeee;">
+                        Obrigado por confiar no
+                        <strong style="color:#6a11cb;">NextMove</strong>.<br>
+                        Este é um e-mail automático, por favor, não responda.
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

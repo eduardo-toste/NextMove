@@ -40,27 +40,23 @@
                                style="background-color:#f9f9f9; border-radius:10px; padding:24px; font-size:15px; color:#333;">
                             <tr>
                                 <td style="padding:12px 16px; font-weight:600; color:#6a11cb; width:30%;">Título</td>
-                                <td style="padding:12px 16px; font-weight:700;" th:text="${titulo}">Título da transação</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${title}">Título da transação</td>
                             </tr>
                             <tr>
                                 <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Descrição</td>
-                                <td style="padding:12px 16px;" th:text="${descricao}">Descrição da transação</td>
+                                <td style="padding:12px 16px;" th:text="${description}">Descrição da transação</td>
                             </tr>
                             <tr>
                                 <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Vencimento</td>
-                                <td style="padding:12px 16px; font-weight:700;" th:text="${vencimento}">00/00/0000</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${dueDate}">00/00/0000</td>
                             </tr>
                             <tr>
                                 <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Valor</td>
-                                <td style="padding:12px 16px; font-weight:700;" th:text="${valor}">R$ 0,00</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Categoria</td>
-                                <td style="padding:12px 16px;" th:text="${categoria}">Categoria</td>
+                                <td style="padding:12px 16px; font-weight:700;" th:text="${amount}">R$ 0,00</td>
                             </tr>
                             <tr>
                                 <td style="padding:12px 16px; font-weight:600; color:#6a11cb;">Tipo</td>
-                                <td style="padding:12px 16px;" th:text="${tipo}">Receita ou Despesa</td>
+                                <td style="padding:12px 16px;" th:text="${type}">Receita ou Despesa</td>
                             </tr>
                         </table>
                     </td>

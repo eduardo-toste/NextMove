@@ -2,13 +2,17 @@ package com.nextmove.auth_service.service;
 
 import com.nextmove.auth_service.dto.RegisterRequestDTO;
 import com.nextmove.auth_service.dto.UserCreatedEvent;
+import com.nextmove.auth_service.dto.UserResponseDTO;
 import com.nextmove.auth_service.exception.ExistentUserException;
+import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import com.nextmove.auth_service.model.User;
 import com.nextmove.auth_service.producer.UserEventProducer;
 import com.nextmove.auth_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +42,12 @@ public class UserService {
         userEventProducer.sendUserCreatedEvent(event);
 
         userRepository.save(user);
+    }
+
+    public UserResponseDTO getUserById(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+
+        return new UserResponseDTO(user);
     }
 }

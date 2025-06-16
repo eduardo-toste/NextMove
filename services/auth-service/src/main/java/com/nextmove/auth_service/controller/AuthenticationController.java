@@ -34,7 +34,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable UUID userId) {
         UserResponseDTO user = userService.getUserById(userId);
 

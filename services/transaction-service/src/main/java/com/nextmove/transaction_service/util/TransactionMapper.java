@@ -43,7 +43,7 @@ public class TransactionMapper {
                 transaction.getDescription(),
                 transaction.getDueDate(),
                 transaction.getAmount(),
-                transaction.getType()
+                transaction.getType().toString()
         );
     }
 

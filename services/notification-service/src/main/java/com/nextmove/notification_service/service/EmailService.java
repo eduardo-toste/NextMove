@@ -2,6 +2,8 @@ package com.nextmove.notification_service.service;
 
 import com.nextmove.notification_service.config.GetEnv;
 import com.nextmove.notification_service.dto.TransactionReminderEvent;
+import com.nextmove.notification_service.model.EmailHistory;
+import com.nextmove.notification_service.repository.EmailHistoryRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +13,15 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    private final EmailHistoryRepository repository;
 
     private final String from = GetEnv.get("MAIL_USERNAME");
 
@@ -25,6 +30,14 @@ public class EmailService {
         context.setVariable("nome", name);
 
         String htmlContent = templateEngine.process("welcome", context);
+
+        EmailHistory emailHistory = EmailHistory.builder()
+                .to(to)
+                .subject("🎉 Bem-vindo ao NextMove!")
+                .content(htmlContent)
+                .sentAt(LocalDateTime.now())
+                .status("SUCCESS")
+                .build();
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -36,7 +49,14 @@ public class EmailService {
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
+            repository.save(emailHistory);
         } catch (MessagingException e) {
+            emailHistory.setStatus("ERROR");
+            emailHistory.setErrorMessage(e.getMessage());
+            emailHistory.setSentAt(LocalDateTime.now());
+
+            repository.save(emailHistory);
+
             throw new RuntimeException("Send e-mail error", e);
         }
     }
@@ -52,6 +72,14 @@ public class EmailService {
 
         String htmlContent = templateEngine.process("transaction-reminder", context);
 
+        EmailHistory emailHistory = EmailHistory.builder()
+                .to(event.email())
+                .subject("🔔 Lembrete de Transação no NextMove")
+                .content(htmlContent)
+                .sentAt(LocalDateTime.now())
+                .status("SUCCESS")
+                .build();
+
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -62,7 +90,14 @@ public class EmailService {
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
+            repository.save(emailHistory);
         } catch (MessagingException e) {
+            emailHistory.setStatus("ERROR");
+            emailHistory.setErrorMessage(e.getMessage());
+            emailHistory.setSentAt(LocalDateTime.now());
+
+            repository.save(emailHistory);
+
             throw new RuntimeException("Erro ao enviar e-mail de lembrete", e);
         }
     }

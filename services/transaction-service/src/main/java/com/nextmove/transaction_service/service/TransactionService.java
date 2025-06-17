@@ -1,11 +1,10 @@
 package com.nextmove.transaction_service.service;
 
-import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionResponseDTO;
+import com.nextmove.transaction_service.client.UserClient;
+import com.nextmove.transaction_service.dto.*;
 import com.nextmove.transaction_service.exception.ResourceNotFoundException;
 import com.nextmove.transaction_service.model.Transaction;
+import com.nextmove.transaction_service.producer.TransactionReminderProducer;
 import com.nextmove.transaction_service.repository.TransactionRepository;
 import com.nextmove.transaction_service.util.TransactionMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class TransactionService {
 
     private final TransactionRepository repository;
+    private final UserClient userClient;
+    private final TransactionReminderProducer transactionReminderProducer;
 
     public TransactionResponseDTO createTransaction(UUID userId, TransactionRequestDTO request) {
         Transaction transaction = TransactionMapper.toEntity(request, userId);
@@ -62,6 +65,18 @@ public class TransactionService {
         repository.delete(transaction);
     }
 
+    public void sendRemindersForPendingTransactions() {
+        LocalDate date = LocalDate.now().plusDays(2);
+        List<Transaction> transactions = repository.findByDueDate(date);
+
+        transactions.forEach(transaction -> {
+            UserResponseDTO user = userClient.getUserById(transaction.getUserId());
+            TransactionReminderEvent event = TransactionMapper.toEvent(user, transaction);
+
+            transactionReminderProducer.sendTransactionReminderEvent(event);
+        });
+    }
+
     private Transaction getTransactionOrThrow(UUID userId, UUID transactionId){
         Transaction transaction = repository.findByUserIdAndId(userId, transactionId);
 
@@ -71,5 +86,4 @@ public class TransactionService {
 
         return transaction;
     }
-
 }

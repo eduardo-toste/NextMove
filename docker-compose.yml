@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   auth-postgres:
     image: postgres:16
@@ -51,14 +49,6 @@ services:
     ports:
       - "${RABBITMQ_PORT}:5672"
       - "${RABBITMQ_MANAGEMENT_PORT}:15672"
-    networks:
-      - nextmove-net
-
-  redis:
-    image: redis:7
-    container_name: nextmove_redis
-    ports:
-      - "${REDIS_PORT}:6379"
     networks:
       - nextmove-net
 

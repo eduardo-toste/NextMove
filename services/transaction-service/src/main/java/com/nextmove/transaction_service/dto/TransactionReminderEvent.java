@@ -1,7 +1,5 @@
 package com.nextmove.transaction_service.dto;
 
-import com.nextmove.transaction_service.model.enums.TransactionType;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,7 +11,7 @@ public record TransactionReminderEvent(
         String description,
         LocalDate dueDate,
         BigDecimal amount,
-        TransactionType type
+        String type
 
 )
 {

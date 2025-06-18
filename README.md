@@ -1,12 +1,12 @@
 # NextMove
 
-NextMove é uma plataforma de microserviços em Spring Boot focada em gestão financeira pessoal. O sistema permite que usuários cadastrem, monitorem e controlem suas receitas e despesas de forma simples e segura.
+NextMove é uma plataforma de gestão financeira pessoal construída com Spring Boot e arquitetura de microserviços, que permite aos usuários registrar, monitorar e gerenciar receitas e despesas de forma simples e segura.
 
-A arquitetura é projetada para escalabilidade e manutenção facilitada, utilizando Eureka para descoberta de serviços, API Gateway para autenticação e roteamento, RabbitMQ para comunicação assíncrona (como envio de e-mails de boas-vindas e lembretes automáticos) e OpenFeign para integrações síncronas entre serviços.
+A arquitetura é composta por API Gateway (roteamento e autenticação), Eureka Server (descoberta de serviços), comunicação assíncrona via RabbitMQ e síncrona via OpenFeign, garantindo alta performance e escalabilidade.
 
-Os dados são armazenados em PostgreSQL para informações relacionais e MongoDB para histórico de notificações, garantindo eficiência e organização. O Transaction Service inclui um scheduler que dispara automaticamente lembretes para transações próximas do vencimento.
+Os dados são armazenados em PostgreSQL (dados transacionais e de usuários) e MongoDB (histórico de notificações e e-mails enviados). O Transaction Service possui um scheduler que dispara lembretes automáticos de transações próximas ao vencimento, oferecendo mais controle financeiro ao usuário.
 
-NextMove entrega uma solução modular, robusta e preparada para crescimento, com foco em clareza, segurança e integração eficiente.
+Uma solução preparada para crescer, com foco em desempenho, segurança e integração eficiente.
 
 ![Logo NextMove](https://github.com/user-attachments/assets/7940e72d-8612-4d9b-90ab-c3c8825623c5)
 
@@ -102,6 +102,14 @@ NextMove entrega uma solução modular, robusta e preparada para crescimento, co
 - RabbitMQ (spring-boot-starter-amqp)
 - Eureka Client
 - Lombok
+
+---
+
+## 🧪 Tecnologias de Teste
+
+- **JUnit 5** — Testes unitários e de integração
+- **Mockito** — Mocking de dependências
+- **Spring Boot Test** — Suporte nativo para testes Spring
 
 ---
 

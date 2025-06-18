@@ -8,6 +8,8 @@ Os dados são armazenados em PostgreSQL para informações relacionais e MongoDB
 
 NextMove entrega uma solução modular, robusta e preparada para crescimento, com foco em clareza, segurança e integração eficiente.
 
+![Logo NextMove](https://github.com/user-attachments/assets/7940e72d-8612-4d9b-90ab-c3c8825623c5)
+
 ---
 
 ## 🚀 Serviços

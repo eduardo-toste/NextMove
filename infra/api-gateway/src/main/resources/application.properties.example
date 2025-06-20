@@ -1,0 +1,13 @@
+# Server
+server.port=8082
+spring.application.name=api-gateway
+
+# Eureka
+eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+
+# Gateway Discovery
+spring.cloud.gateway.discovery.locator.enabled=true
+spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+
+# Security - Altere para o seu secret JWT
+api.security.token.secret=COLOQUE_SEU_SECRET_AQUI

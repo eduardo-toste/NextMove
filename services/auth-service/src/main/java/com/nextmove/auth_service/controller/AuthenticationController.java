@@ -3,16 +3,16 @@ package com.nextmove.auth_service.controller;
 import com.nextmove.auth_service.dto.AuthRequestDTO;
 import com.nextmove.auth_service.dto.AuthResponseDTO;
 import com.nextmove.auth_service.dto.RegisterRequestDTO;
-import com.nextmove.auth_service.dto.UserResponseDTO;
 import com.nextmove.auth_service.service.AuthenticationService;
 import com.nextmove.auth_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,13 +32,6 @@ public class AuthenticationController {
     public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestDTO request){
         userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
-    }
-
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable UUID userId) {
-        UserResponseDTO user = userService.getUserById(userId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
 }

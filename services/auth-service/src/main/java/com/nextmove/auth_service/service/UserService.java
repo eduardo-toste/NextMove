@@ -23,19 +23,10 @@ public class UserService {
     private final UserEventProducer userEventProducer;
 
     public void registerUser(RegisterRequestDTO request) {
-        var searchedUser = userRepository.findByUsername(request.username());
-
-        if (searchedUser.isPresent()){
-            throw new ExistentUserException("User already registered!");
-        }
-
-        var encodedPassword = passwordEncoder.encode(request.password());
-        var user = new User(null, request.name(), request.username(), encodedPassword);
-
-        UserCreatedEvent event = new UserCreatedEvent(user.getName(), user.getUsername());
-        userEventProducer.sendUserCreatedEvent(event);
-
+        validateUserDoesNotExist(request.username());
+        var user = createUserFromRequest(request);
         userRepository.save(user);
+        publishUserCreatedEvent(user);
     }
 
     public UserResponseDTO getUserById(UUID userId) {
@@ -43,5 +34,21 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
 
         return new UserResponseDTO(user);
+    }
+
+    private void validateUserDoesNotExist(String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new ExistentUserException("User already registered!");
+        }
+    }
+
+    private User createUserFromRequest(RegisterRequestDTO request) {
+        String encodedPassword = passwordEncoder.encode(request.password());
+        return new User(null, request.name(), request.username(), encodedPassword);
+    }
+
+    private void publishUserCreatedEvent(User user) {
+        var event = new UserCreatedEvent(user.getName(), user.getUsername());
+        userEventProducer.sendUserCreatedEvent(event);
     }
 }

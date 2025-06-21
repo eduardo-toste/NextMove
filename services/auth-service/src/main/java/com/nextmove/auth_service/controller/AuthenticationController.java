@@ -2,6 +2,7 @@ package com.nextmove.auth_service.controller;
 
 import com.nextmove.auth_service.dto.AuthRequestDTO;
 import com.nextmove.auth_service.dto.AuthResponseDTO;
+import com.nextmove.auth_service.dto.MessageResponseDTO;
 import com.nextmove.auth_service.dto.RegisterRequestDTO;
 import com.nextmove.auth_service.service.AuthenticationService;
 import com.nextmove.auth_service.service.UserService;
@@ -29,9 +30,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestDTO request){
+    public ResponseEntity<MessageResponseDTO> register(@RequestBody @Valid RegisterRequestDTO request){
         userService.registerUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponseDTO("User registered successfully!"));
     }
 
 }

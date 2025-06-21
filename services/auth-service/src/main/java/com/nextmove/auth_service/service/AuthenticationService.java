@@ -19,16 +19,27 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     public AuthResponseDTO authenticate(AuthRequestDTO request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password())
-        );
-
-        User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-
-        String token = jwtService.generateToken(user.getUsername(), user.getId());
-
+        authenticateUser(request);
+        User user = findUserByUsername(request.username());
+        String token = generateToken(user);
         return new AuthResponseDTO(token);
+    }
+
+    private void authenticateUser(AuthRequestDTO request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.username(), request.password()
+                )
+        );
+    }
+
+    private User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+    }
+
+    private String generateToken(User user) {
+        return jwtService.generateToken(user.getUsername(), user.getId());
     }
 
 }

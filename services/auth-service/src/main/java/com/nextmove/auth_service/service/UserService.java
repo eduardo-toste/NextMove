@@ -30,13 +30,7 @@ public class UserService {
         }
 
         var encodedPassword = passwordEncoder.encode(request.password());
-
-        var user = new User(
-                null,
-                request.name(),
-                request.username(),
-                encodedPassword
-        );
+        var user = new User(null, request.name(), request.username(), encodedPassword);
 
         UserCreatedEvent event = new UserCreatedEvent(user.getName(), user.getUsername());
         userEventProducer.sendUserCreatedEvent(event);

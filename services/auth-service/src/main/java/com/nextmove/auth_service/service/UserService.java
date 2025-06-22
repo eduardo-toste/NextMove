@@ -31,14 +31,14 @@ public class UserService {
 
     public UserResponseDTO getUserById(UUID userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Não encontramos nenhuma conta com o e-mail informado."));
 
         return new UserResponseDTO(user);
     }
 
     private void validateUserDoesNotExist(String username) {
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new ExistentUserException("User already registered!");
+            throw new ExistentUserException("O e-mail informado já está cadastrado. Por favor, tente outro.");
         }
     }
 

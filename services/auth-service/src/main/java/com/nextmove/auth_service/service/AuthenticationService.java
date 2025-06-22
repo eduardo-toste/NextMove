@@ -35,7 +35,7 @@ public class AuthenticationService {
 
     private User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Não encontramos nenhuma conta com o e-mail informado."));
     }
 
     private String generateToken(User user) {

@@ -1,0 +1,49 @@
+#############################################
+# Configuração Eureka
+#############################################
+eureka.client.serviceUrl.defaultZone=http://localhost:8081/eureka
+
+# Nome da aplicação no Eureka
+spring.application.name=auth-service
+
+# Porta dinâmica (0 = porta aleatória)
+server.port=0
+
+
+#############################################
+# Configuração do Datasource PostgreSQL
+#############################################
+spring.datasource.url=jdbc:postgresql://localhost:5432/SEU_BANCO
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+#############################################
+# Configurações JPA / Hibernate
+#############################################
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+
+#############################################
+# Configuração do Gateway (se aplicável)
+#############################################
+spring.cloud.gateway.discovery.locator.enabled=true
+spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
+
+
+#############################################
+# Configuração do RabbitMQ
+#############################################
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=SEU_USUARIO
+spring.rabbitmq.password=SUA_SENHA
+
+
+#############################################
+# Configurações de Segurança (JWT Secret)
+#############################################
+api.security.token.secret=SUA_SECRET_KEY_AQUI

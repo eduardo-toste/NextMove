@@ -22,45 +22,64 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestHeader("X-User-Id") UUID userId, @RequestBody TransactionRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.createTransaction(userId, request);
+    public ResponseEntity<TransactionResponseDTO> createTransaction(
+            @RequestHeader("X-User-Id") UUID userId,
+            @RequestBody TransactionRequestDTO request) {
 
+        TransactionResponseDTO transaction = transactionService.createTransaction(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
     }
 
     @GetMapping
-    public ResponseEntity<Page<TransactionResponseDTO>> getAllTransactions(@RequestHeader("X-User-Id") UUID userId, Pageable pageable) {
-        Page<TransactionResponseDTO> transactions = transactionService.getAllTransactions(userId, pageable);
+    public ResponseEntity<Page<TransactionResponseDTO>> getAllTransactions(
+            @RequestHeader("X-User-Id") UUID userId,
+            Pageable pageable) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transactions);
+        Page<TransactionResponseDTO> transactions = transactionService.getAllTransactions(userId, pageable);
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDTO> getTransactionById(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId) {
-        TransactionResponseDTO transaction = transactionService.getTransactionById(userId, transactionId);
+    public ResponseEntity<TransactionResponseDTO> getTransactionById(
+            @RequestHeader("X-User-Id") UUID userId,
+            @PathVariable UUID transactionId) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+        TransactionResponseDTO transaction = transactionService.getTransactionById(userId, transactionId);
+        return ResponseEntity.ok(transaction);
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDTO> transactionCompleteUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPutRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.updateTransaction(userId, transactionId, request);
+    public ResponseEntity<TransactionResponseDTO> updateTransaction(
+            @RequestHeader("X-User-Id") UUID userId,
+            @PathVariable UUID transactionId,
+            @RequestBody TransactionPutRequestDTO request) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+        TransactionResponseDTO transaction = transactionService.updateTransaction(userId, transactionId, request);
+        return ResponseEntity.ok(transaction);
     }
 
     @PatchMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDTO> transactionPartialUpdate(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId, @RequestBody TransactionPatchRequestDTO request) {
-        TransactionResponseDTO transaction = transactionService.patchTransaction(userId, transactionId, request);
+    public ResponseEntity<TransactionResponseDTO> partialUpdateTransaction(
+            @RequestHeader("X-User-Id") UUID userId,
+            @PathVariable UUID transactionId,
+            @RequestBody TransactionPatchRequestDTO request) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+        TransactionResponseDTO transaction = transactionService.patchTransaction(userId, transactionId, request);
+        return ResponseEntity.ok(transaction);
     }
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<String> deleteTransaction(@RequestHeader("X-User-Id") UUID userId, @PathVariable UUID transactionId) {
-        transactionService.deleteTransaction(userId, transactionId);
+    public ResponseEntity<Void> deleteTransaction(
+            @RequestHeader("X-User-Id") UUID userId,
+            @PathVariable UUID transactionId) {
 
-        return ResponseEntity.status(HttpStatus.OK).body("Transaction successfully deleted!");
+        transactionService.deleteTransaction(userId, transactionId);
+        return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/reminders")
+    public ResponseEntity<String> triggerReminders() {
+        transactionService.sendRemindersForPendingTransactions();
+        return ResponseEntity.ok("Reminders triggered successfully");
+    }
 }

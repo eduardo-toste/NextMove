@@ -1,0 +1,43 @@
+# ==========================
+# Configuração de E-mail
+# ==========================
+mail.host=smtp.seuprovedor.com
+mail.port=587
+mail.username=seuemail@dominio.com
+mail.password=sua_senha_aqui
+mail.tls-enabled=true
+
+
+# ==========================
+# Configuração Eureka
+# ==========================
+eureka.client.serviceUrl.defaultZone=http://localhost:8081/eureka
+spring.application.name=notification-service
+server.port=0
+
+# ==========================
+# Gateway
+# ==========================
+spring.cloud.gateway.discovery.locator.enabled=true
+spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
+
+# ==========================
+# MongoDB
+# ==========================
+spring.data.mongodb.uri=mongodb://usuario:senha@localhost:27017/notificationdb?authSource=admin
+
+# ==========================
+# RabbitMQ
+# ==========================
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+
+# ==========================
+# Thymeleaf
+# ==========================
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.encoding=UTF-8

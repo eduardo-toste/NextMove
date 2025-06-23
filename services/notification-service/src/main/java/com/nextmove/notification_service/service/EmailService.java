@@ -1,12 +1,12 @@
 package com.nextmove.notification_service.service;
 
-import com.nextmove.notification_service.config.GetEnv;
 import com.nextmove.notification_service.dto.TransactionReminderEvent;
 import com.nextmove.notification_service.model.EmailHistory;
 import com.nextmove.notification_service.repository.EmailHistoryRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,8 @@ public class EmailService {
     private final TemplateEngine templateEngine;
     private final EmailHistoryRepository repository;
 
-    private final String from = GetEnv.get("MAIL_USERNAME");
+    @Value("{mail.username}")
+    private String from;
 
     public void sendWelcomeEmail(String to, String name) {
         Context context = new Context();

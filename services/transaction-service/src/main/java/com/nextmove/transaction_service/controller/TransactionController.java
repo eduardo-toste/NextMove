@@ -1,6 +1,9 @@
 package com.nextmove.transaction_service.controller;
 
-import com.nextmove.transaction_service.dto.*;
+import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionRequestDTO;
+import com.nextmove.transaction_service.dto.TransactionResponseDTO;
 import com.nextmove.transaction_service.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +42,7 @@ public class TransactionController {
     public ResponseEntity<TransactionResponseDTO> createTransaction(
             @Parameter(description = "User ID", required = true)
             @RequestHeader("X-User-Id") UUID userId,
-            @RequestBody TransactionRequestDTO request) {
+            @RequestBody @Valid TransactionRequestDTO request) {
 
         TransactionResponseDTO transaction = transactionService.createTransaction(userId, request);
         return ResponseEntity.status(201).body(transaction);
@@ -98,7 +102,7 @@ public class TransactionController {
     public ResponseEntity<TransactionResponseDTO> updateTransaction(
             @RequestHeader("X-User-Id") UUID userId,
             @PathVariable UUID transactionId,
-            @RequestBody TransactionPutRequestDTO request) {
+            @RequestBody @Valid TransactionPutRequestDTO request) {
 
         TransactionResponseDTO transaction = transactionService.updateTransaction(userId, transactionId, request);
         return ResponseEntity.ok(transaction);
@@ -118,7 +122,7 @@ public class TransactionController {
     public ResponseEntity<TransactionResponseDTO> partialUpdateTransaction(
             @RequestHeader("X-User-Id") UUID userId,
             @PathVariable UUID transactionId,
-            @RequestBody TransactionPatchRequestDTO request) {
+            @RequestBody @Valid TransactionPatchRequestDTO request) {
 
         TransactionResponseDTO transaction = transactionService.patchTransaction(userId, transactionId, request);
         return ResponseEntity.ok(transaction);

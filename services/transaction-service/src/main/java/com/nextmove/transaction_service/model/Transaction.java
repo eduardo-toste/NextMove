@@ -19,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Transaction {
 
     @Id
@@ -26,27 +27,22 @@ public class Transaction {
     private UUID id;
 
     @Column(nullable = false)
-    @Setter
     private String title;
 
     @Column(nullable = false)
-    @Setter
     private String description;
 
     @Column(nullable = false)
-    @Setter
     private BigDecimal amount;
 
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
     @Column(name = "due_date", nullable = false)
-    @Setter
     private LocalDate dueDate;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    @Setter
     private TransactionType type;
 
     @Enumerated(value = EnumType.STRING)

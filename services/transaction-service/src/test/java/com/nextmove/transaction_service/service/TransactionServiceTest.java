@@ -44,11 +44,13 @@ class TransactionServiceTest {
     private TransactionReminderProducer transactionReminderProducer;
 
     private UUID userId;
+    private UUID transactionId;
     private TransactionRequestDTO salaryRequest;
 
     @BeforeEach
     void setup() {
         userId = UUID.randomUUID();
+        transactionId = UUID.randomUUID();
         salaryRequest = buildTransactionRequest("Salário", "Salário do mês atual", "5000.0", TransactionType.INCOME);
     }
 
@@ -94,6 +96,24 @@ class TransactionServiceTest {
         assertEquals("Água", result.getContent().get(1).title());
 
         verify(transactionRepository, times(1)).findByUserId(userId, pageable);
+    }
+
+    @Test
+    void shouldReturnSpecificTransaction() {
+        // Arrange
+        Transaction transaction = TransactionMapper.toEntity(salaryRequest, userId);
+        transaction.setId(transactionId);
+
+        when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(transaction);
+
+        // Act
+        TransactionResponseDTO result = transactionService.getTransactionById(userId, transactionId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Salário", result.title());
+        assertEquals(transactionId, result.id());
+        verify(transactionRepository, times(1)).findByUserIdAndId(userId, transactionId);
     }
 
 }

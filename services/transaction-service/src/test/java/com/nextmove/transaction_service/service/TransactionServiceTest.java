@@ -1,9 +1,12 @@
 package com.nextmove.transaction_service.service;
 
 import com.nextmove.transaction_service.client.UserClient;
+import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
+import com.nextmove.transaction_service.exception.ResourceNotFoundException;
 import com.nextmove.transaction_service.model.Transaction;
+import com.nextmove.transaction_service.model.enums.Status;
 import com.nextmove.transaction_service.model.enums.TransactionType;
 import com.nextmove.transaction_service.producer.TransactionReminderProducer;
 import com.nextmove.transaction_service.repository.TransactionRepository;
@@ -19,12 +22,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 import static com.nextmove.transaction_service.util.BuilderUtil.buildTransactionRequest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.nextmove.transaction_service.util.TransactionMapper.toEntity;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -46,18 +50,22 @@ class TransactionServiceTest {
     private UUID userId;
     private UUID transactionId;
     private TransactionRequestDTO salaryRequest;
+    private TransactionRequestDTO internetRequest;
+    private TransactionRequestDTO waterRequest;
 
     @BeforeEach
     void setup() {
         userId = UUID.randomUUID();
         transactionId = UUID.randomUUID();
         salaryRequest = buildTransactionRequest("Salário", "Salário do mês atual", "5000.0", TransactionType.INCOME);
+        internetRequest = buildTransactionRequest("Internet", "Plano mensal", "150", TransactionType.EXPENSE);
+        waterRequest = buildTransactionRequest("Água", "Conta de água", "80", TransactionType.EXPENSE);
     }
 
     @Test
     void shouldCreateTransactionSuccessfully() {
         // Arrange
-        Transaction transaction = TransactionMapper.toEntity(salaryRequest, userId);
+        Transaction transaction = toEntity(salaryRequest, userId);
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
 
         // Act
@@ -77,11 +85,8 @@ class TransactionServiceTest {
         // Arrange
         Pageable pageable = Pageable.ofSize(2).withPage(0);
 
-        TransactionRequestDTO internetRequest = buildTransactionRequest("Internet", "Plano mensal", "150", TransactionType.EXPENSE);
-        TransactionRequestDTO waterRequest = buildTransactionRequest("Água", "Conta de água", "80", TransactionType.EXPENSE);
-
-        Transaction internetTx = TransactionMapper.toEntity(internetRequest, userId);
-        Transaction aguaTx = TransactionMapper.toEntity(waterRequest, userId);
+        Transaction internetTx = toEntity(internetRequest, userId);
+        Transaction aguaTx = toEntity(waterRequest, userId);
 
         Page<Transaction> transactionPage = new PageImpl<>(List.of(internetTx, aguaTx), pageable, 2);
         when(transactionRepository.findByUserId(userId, pageable)).thenReturn(transactionPage);
@@ -101,7 +106,7 @@ class TransactionServiceTest {
     @Test
     void shouldReturnSpecificTransaction() {
         // Arrange
-        Transaction transaction = TransactionMapper.toEntity(salaryRequest, userId);
+        Transaction transaction = toEntity(salaryRequest, userId);
         transaction.setId(transactionId);
 
         when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(transaction);
@@ -114,6 +119,55 @@ class TransactionServiceTest {
         assertEquals("Salário", result.title());
         assertEquals(transactionId, result.id());
         verify(transactionRepository, times(1)).findByUserIdAndId(userId, transactionId);
+    }
+
+    @Test
+    void shouldUpdateATransaction() {
+        Transaction salaryTransaction = TransactionMapper.toEntity(salaryRequest, userId);
+        salaryTransaction.setId(transactionId);
+
+        // Simula o novo DTO com alterações
+        TransactionPutRequestDTO updateRequest = new TransactionPutRequestDTO(
+                "Novo título",
+                "Nova descrição",
+                new BigDecimal("3000.0"),
+                LocalDate.of(2025, 8, 1),
+                TransactionType.EXPENSE,
+                Status.PENDING
+        );
+
+        // Arrange
+        when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(salaryTransaction);
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(salaryTransaction);
+
+        // Act
+        TransactionResponseDTO result = transactionService.updateTransaction(userId, transactionId, updateRequest);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Novo título", result.title());
+        assertEquals("Nova descrição", result.description());
+        assertEquals(new BigDecimal("3000.0"), result.amount());
+        assertEquals(TransactionType.EXPENSE, result.type());
+
+        verify(transactionRepository).findByUserIdAndId(userId, transactionId);
+        verify(transactionRepository).save(salaryTransaction);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdatingNonexistentTransaction() {
+        TransactionPutRequestDTO updateRequest = new TransactionPutRequestDTO(
+                "Título", "Desc", new BigDecimal("100"), LocalDate.now(), TransactionType.EXPENSE, Status.PENDING
+        );
+
+        when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(null);
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                transactionService.updateTransaction(userId, transactionId, updateRequest)
+        );
+
+        verify(transactionRepository, times(1)).findByUserIdAndId(userId, transactionId);
+        verify(transactionRepository, never()).save(any());
     }
 
 }

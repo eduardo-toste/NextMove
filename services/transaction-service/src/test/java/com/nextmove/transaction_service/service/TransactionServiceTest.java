@@ -1,6 +1,7 @@
 package com.nextmove.transaction_service.service;
 
 import com.nextmove.transaction_service.client.UserClient;
+import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionRequestDTO;
 import com.nextmove.transaction_service.dto.TransactionResponseDTO;
@@ -149,6 +150,33 @@ class TransactionServiceTest {
         assertEquals("Nova descrição", result.description());
         assertEquals(new BigDecimal("3000.0"), result.amount());
         assertEquals(TransactionType.EXPENSE, result.type());
+
+        verify(transactionRepository).findByUserIdAndId(userId, transactionId);
+        verify(transactionRepository).save(salaryTransaction);
+    }
+
+    @Test
+    void shouldPatchATransaction() {
+        // Arrange
+        Transaction salaryTransaction = TransactionMapper.toEntity(salaryRequest, userId);
+        salaryTransaction.setId(transactionId);
+
+        TransactionPatchRequestDTO request = new TransactionPatchRequestDTO(
+                null, null, new BigDecimal("6000.00"), null, null, null
+        );
+
+        // 🔥 Mock necessário para simular a busca da transação antes do patch
+        when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(salaryTransaction);
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(salaryTransaction);
+
+        // Act
+        TransactionResponseDTO result = transactionService.patchTransaction(userId, transactionId, request);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Salário", result.title()); // título não mudou
+        assertEquals(new BigDecimal("6000.00"), result.amount()); // valor atualizado
+        assertEquals(TransactionType.INCOME, result.type()); // tipo não mudou
 
         verify(transactionRepository).findByUserIdAndId(userId, transactionId);
         verify(transactionRepository).save(salaryTransaction);

@@ -165,7 +165,6 @@ class TransactionServiceTest {
                 null, null, new BigDecimal("6000.00"), null, null, null
         );
 
-        // 🔥 Mock necessário para simular a busca da transação antes do patch
         when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(salaryTransaction);
         when(transactionRepository.save(any(Transaction.class))).thenReturn(salaryTransaction);
 
@@ -174,12 +173,28 @@ class TransactionServiceTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("Salário", result.title()); // título não mudou
-        assertEquals(new BigDecimal("6000.00"), result.amount()); // valor atualizado
-        assertEquals(TransactionType.INCOME, result.type()); // tipo não mudou
+        assertEquals("Salário", result.title());
+        assertEquals(new BigDecimal("6000.00"), result.amount());
+        assertEquals(TransactionType.INCOME, result.type());
 
         verify(transactionRepository).findByUserIdAndId(userId, transactionId);
         verify(transactionRepository).save(salaryTransaction);
+    }
+
+    @Test
+    void shouldDeleteTransaction() {
+        // Arrange
+        Transaction salaryTransaction = TransactionMapper.toEntity(salaryRequest, userId);
+        salaryTransaction.setId(transactionId);
+
+        when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(salaryTransaction);
+
+        // Act
+        transactionService.deleteTransaction(userId, transactionId);
+
+        // Assert
+        verify(transactionRepository).findByUserIdAndId(userId, transactionId);
+        verify(transactionRepository).delete(salaryTransaction);
     }
 
     @Test

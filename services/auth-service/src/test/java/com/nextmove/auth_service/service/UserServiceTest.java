@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,6 +44,37 @@ class UserServiceTest {
 
         verify(userRepository).save(any(User.class));
         verify(userEventProducer).sendUserCreatedEvent(any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserAlreadyExists() {
+        RegisterRequestDTO request = new RegisterRequestDTO("Eduardo", "eduardo@test.com", "123123");
+
+        when(userRepository.findByUsername(request.username())).thenReturn(Optional.of(new User()));
+
+        assertThrows(com.nextmove.auth_service.exception.ExistentUserException.class, () -> userService.registerUser(request));
+    }
+
+    @Test
+    void shouldReturnUserById() {
+        java.util.UUID userId = java.util.UUID.randomUUID();
+        User user = new User(userId, "Eduardo", "eduardo@test.com", "encodedPassword");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+        com.nextmove.auth_service.dto.UserResponseDTO result = userService.getUserById(userId);
+
+        org.junit.jupiter.api.Assertions.assertEquals("Eduardo", result.name());
+        org.junit.jupiter.api.Assertions.assertEquals("eduardo@test.com", result.username());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotFoundById() {
+        java.util.UUID userId = java.util.UUID.randomUUID();
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(com.nextmove.auth_service.exception.ResourceNotFoundException.class, () -> userService.getUserById(userId));
     }
 
 }

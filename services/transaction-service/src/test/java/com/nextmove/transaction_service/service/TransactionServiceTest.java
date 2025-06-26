@@ -220,16 +220,20 @@ class TransactionServiceTest {
 
     @Test
     void shouldThrowExceptionWhenUpdatingNonexistentTransaction() {
+        // Arrange
         TransactionPutRequestDTO updateRequest = new TransactionPutRequestDTO(
                 "Título", "Desc", new BigDecimal("100"), LocalDate.now(), TransactionType.EXPENSE, Status.PENDING
         );
 
         when(transactionRepository.findByUserIdAndId(userId, transactionId)).thenReturn(null);
 
+        // Act
         assertThrows(ResourceNotFoundException.class, () ->
                 transactionService.updateTransaction(userId, transactionId, updateRequest)
         );
 
+
+        // Assert
         verify(transactionRepository, times(1)).findByUserIdAndId(userId, transactionId);
         verify(transactionRepository, never()).save(any());
     }

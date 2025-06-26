@@ -1,10 +1,7 @@
 package com.nextmove.transaction_service.service;
 
 import com.nextmove.transaction_service.client.UserClient;
-import com.nextmove.transaction_service.dto.TransactionPatchRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionPutRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionRequestDTO;
-import com.nextmove.transaction_service.dto.TransactionResponseDTO;
+import com.nextmove.transaction_service.dto.*;
 import com.nextmove.transaction_service.exception.ResourceNotFoundException;
 import com.nextmove.transaction_service.model.Transaction;
 import com.nextmove.transaction_service.model.enums.Status;
@@ -195,6 +192,30 @@ class TransactionServiceTest {
         // Assert
         verify(transactionRepository).findByUserIdAndId(userId, transactionId);
         verify(transactionRepository).delete(salaryTransaction);
+    }
+
+    @Test
+    void shouldSendRemindersForTransactionsWithUpcomingDueDate() {
+        // Arrange
+        LocalDate targetDate = LocalDate.now().plusDays(2);
+
+        Transaction transaction = TransactionMapper.toEntity(salaryRequest, userId);
+        transaction.setId(transactionId);
+        transaction.setDueDate(targetDate);
+
+        List<Transaction> transactions = List.of(transaction);
+        UserResponseDTO user = new UserResponseDTO("Eduardo", "dudsdev1910@gmail.com");
+
+        when(transactionRepository.findByDueDate(targetDate)).thenReturn(transactions);
+        when(userClient.getUserById(userId)).thenReturn(user);
+
+        // Act
+        transactionService.sendRemindersForPendingTransactions();
+
+        // Assert
+        verify(transactionRepository).findByDueDate(targetDate);
+        verify(userClient).getUserById(userId);
+        verify(transactionReminderProducer).sendTransactionReminderEvent(any(TransactionReminderEvent.class));
     }
 
     @Test

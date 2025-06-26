@@ -1,5 +1,6 @@
 package com.nextmove.auth_service.service;
 
+import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import com.nextmove.auth_service.model.User;
 import com.nextmove.auth_service.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +38,18 @@ class CustomUserDetailsServiceTest {
         // Assert
         assertNotNull(userDetails);
         assertEquals(username, userDetails.getUsername());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotFound() {
+        // Arrange
+        String username = "inexistente@test.com";
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () ->
+                customUserDetailsService.loadUserByUsername(username)
+        );
     }
 
 }

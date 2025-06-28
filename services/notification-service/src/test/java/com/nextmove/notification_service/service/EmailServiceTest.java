@@ -96,8 +96,10 @@ class EmailServiceTest {
         String name = "Eduardo";
         String expectedHtml = "<html>Bem-vindo, Eduardo!</html>";
 
+        MimeMessage mimeMessage = mock(MimeMessage.class);
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
         when(templateEngine.process(eq("welcome"), any(Context.class))).thenReturn(expectedHtml);
-        when(mailSender.createMimeMessage()).thenThrow(new RuntimeException("SMTP error"));
+        doThrow(new RuntimeException("SMTP error")).when(mailSender).send(any(MimeMessage.class));
 
         ReflectionTestUtils.setField(emailService, "from", "no-reply@nextmove.com");
 
@@ -129,8 +131,10 @@ class EmailServiceTest {
 
         String expectedHtml = "<html>Lembrete de transação</html>";
 
+        MimeMessage mimeMessage = mock(MimeMessage.class);
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
         when(templateEngine.process(eq("transaction-reminder"), any(Context.class))).thenReturn(expectedHtml);
-        when(mailSender.createMimeMessage()).thenThrow(new RuntimeException("SMTP server down"));
+        doThrow(new RuntimeException("SMTP server down")).when(mailSender).send(any(MimeMessage.class));
 
         ReflectionTestUtils.setField(emailService, "from", "no-reply@nextmove.com");
 

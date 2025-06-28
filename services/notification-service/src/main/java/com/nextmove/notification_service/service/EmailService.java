@@ -3,7 +3,6 @@ package com.nextmove.notification_service.service;
 import com.nextmove.notification_service.dto.TransactionReminderEvent;
 import com.nextmove.notification_service.model.EmailHistory;
 import com.nextmove.notification_service.repository.EmailHistoryRepository;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,7 +78,7 @@ public class EmailService {
 
             mailSender.send(message);
             repository.save(emailHistory);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             emailHistory.setStatus("ERROR");
             emailHistory.setErrorMessage(e.getMessage());
             emailHistory.setSentAt(LocalDateTime.now());

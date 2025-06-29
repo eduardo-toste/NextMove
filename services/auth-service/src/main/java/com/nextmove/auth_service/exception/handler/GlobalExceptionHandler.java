@@ -7,13 +7,14 @@ import com.nextmove.auth_service.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.access.AccessDeniedException;
 import java.util.stream.Collectors;
 
 import static com.nextmove.auth_service.utils.ErrorBuilder.buildErrorResponse;
@@ -73,5 +74,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExistentUserException.class)
     public ResponseEntity<ErrorResponseDTO> handleExistentUserException(Exception ex, HttpServletRequest request){
         return buildErrorResponse(HttpStatus.CONFLICT, "User Already Exists", ex.getMessage(), request.getRequestURI());
+    }
+
+    // 400 - BAD REQUEST (UUID malformado, etc)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        String message = "Invalid value for parameter '" + ex.getName() + "': '" + ex.getValue() + "'";
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Type Mismatch", message, request.getRequestURI());
     }
 }

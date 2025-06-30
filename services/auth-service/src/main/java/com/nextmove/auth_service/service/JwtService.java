@@ -20,10 +20,11 @@ public class JwtService {
         return Algorithm.HMAC256(secret);
     }
 
-    public String generateToken(String username, UUID id){
+    public String generateToken(String username, UUID id, String name){
         return JWT.create()
                 .withSubject(username)
                 .withClaim("id", id.toString())
+                .withClaim("name", name)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION))
                 .sign(getAlgorithm());

@@ -45,7 +45,7 @@ class AuthenticationServiceTest {
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authToken);
         when(userRepository.findByUsername(request.username())).thenReturn(Optional.of(user));
-        when(jwtService.generateToken(user.getUsername(), user.getId())).thenReturn("validToken");
+        when(jwtService.generateToken(user.getUsername(), user.getId(), user.getName())).thenReturn("validToken");
 
         // Act
         AuthResponseDTO result = authenticationService.authenticate(request);

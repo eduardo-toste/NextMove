@@ -16,6 +16,7 @@ A solução conta com API Gateway para roteamento e autenticação, Service Regi
 ## 📑 Sumário
 
 - [Visão Geral](#visão-geral)
+- [Interface Web (Frontend)](#interface-web-frontend)
 - [Badges](#badges)
 - [Variáveis de Ambiente](#variáveis-de-ambiente)
 - [Arquitetura dos Serviços](#arquitetura-dos-serviços)
@@ -47,6 +48,16 @@ NextMove foi projetado para ser robusto, seguro e preparado para crescer, com fo
 - Auditoria e rastreabilidade de notificações
 
 ![Logo NextMove](https://github.com/user-attachments/assets/7940e72d-8612-4d9b-90ab-c3c8825623c5)
+
+---
+
+## Interface Web (Frontend)
+
+O frontend do NextMove é desenvolvido em React + TypeScript e está disponível em um repositório separado:
+
+➡️ [NextMoveUi – Interface Web (React)](https://github.com/eduardo-toste/NextMoveUi)
+
+Esse projeto oferece uma experiência moderna, responsiva e integrada ao backend, com autenticação JWT, dashboard financeiro, relatórios em PDF e design profissional.
 
 ---
 
